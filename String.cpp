@@ -18,7 +18,7 @@ int main()
     // cout << String1.JoinString(Arr) << endl;
     // cout << String1.Length() << endl;
     // cout << String1.Replace("Sabry", "Ismail") << "Hi" << endl;
-    cout << String1.ReverseWordsInString() << "Hi" << endl;
+    // cout << String1.ReverseWordsInString() << "Hi" << endl;
     // cout << "Hi I am " << String1.TrimRight() << endl;
     // cout << String1.TrimLeft() << endl;
     // cout << String1.UpperAllString() << endl;
@@ -28,10 +28,10 @@ int main()
     // cout << String1.Trim() << endl;
     // String1.PrintFirstLetterOfString();
 
-    cout << "\n============================================\n";
+    clsString s2("Yassin Mohammed Adel");
 
-    string s = "       Ahmed Mohammed Omar    ";
+    cout << s2.CountCapitalLetters() << endl;
+    cout << s2.CountSmallLetters() << endl;
 
-    // cout << String1.Replace("Sabry", "Omar") << endl;
     cin.get();
 }
