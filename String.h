@@ -62,11 +62,11 @@ public:
     }
 
     //****************************************
-    static vector<string> SplitString(string s)
+    static vector<string> SplitString(string s, string delim)
     {
         vector<string> Vstring;
         int pos = 0;
-        string delim = " ";
+
         string Sword = "";
 
         while ((pos = s.find(delim)) != std::string::npos)
@@ -85,9 +85,9 @@ public:
         }
         return Vstring;
     }
-    vector<string> SplitString()
+    vector<string> SplitString(string delim)
     {
-        return SplitString(_Value);
+        return SplitString(_Value, delim);
     }
 
     //===================================
@@ -131,9 +131,8 @@ public:
     //======================================
     static bool IsVowel(char Letter)
     {
-        if (Letter == 'i' || Letter == 'I' || Letter == 'o' || Letter == 'O' ||
-            Letter == 'e' || Letter == 'E' || Letter == 'u' || Letter == 'U' ||
-            Letter == 'a' || Letter == 'A')
+        Letter = tolower(Letter);
+        if (Letter == 'i' || Letter == 'o' || Letter == 'e' || Letter == 'u' || Letter == 'a')
         {
             return true;
         }
@@ -257,49 +256,42 @@ public:
     }
     //==============================
 
-    static string JoinString(vector<string> vstring)
+    static string JoinString(vector<string> &vstring, string Delim)
     {
         string join = "";
 
-        for (int i = 0; i < vstring.size(); i++)
+        // for (int i = 0; i < vstring.size(); i++)
+        // {
+        //
+        //     join += vstring[i] + Delim;
+        // i != vstring.size() - 1 ? join += vstring[i] + Delim : join += vstring[i];
+        // }
+
+        for (string &s : vstring)
         {
-            i != vstring.size() - 1 ? join += vstring[i] + " " : join += vstring[i];
+            join += s + Delim;
         }
-        return join;
+        return join.substr(0, join.length() - Delim.length()); // we subtract the string from the beginning without taking the Delimiter we erased the delimiter
+
+        // return TrimRight(join);
     }
 
-    // static string JoinString(string Array[100])
-    // {
-    //     string join = "";
+    //-------------------------------------------------------------------------------------------
+    static string JoinString(string Array[], short length, string Delim)
+    {
+        string join = "";
 
-    //     for (int i = 0; i < 100; i++)
-    //     {
-    //         join += Array[i] + " ";
-    //     }
-    //     return join;
-    // }
+        for (int i = 0; i < length; i++)
+        {
+            // i != length - 1 ? join += Array[i] + Delim : join += Array[i];
 
-    // string JoinString(vector<string>vstring, string Delim)
-    //{
-    //	string s1 = "";
-    //
-    //	for (string& s : vstring)
-    //	{
-    //		s1 = s1 + s + Delim;
-    //	}
-    //	return s1.substr(0, s1.length() - Delim.length());
-    //}
+            join += Array[i] + Delim;
+        }
+        return join.substr(0, join.length() - Delim.length()); // to erase the delimiter from the end of the string
 
-    // Array
-    //  string JoinString(string Arr[], short length, string Delim)
-    //{
-    //	string s1 = "";
-    //	for (short i = 0; i < length; i++)
-    //	{
-    //		s1 += Arr[i] + Delim;
-    //	}
-    //	return s1.substr(0, s1.length() - Delim.length());
-    //  }
+        // return TrimRight(join);
+    }
+
     //==========================================
 
     int Length(string s)
@@ -310,65 +302,88 @@ public:
     {
         return Length(_Value);
     }
-    //====================================
 
-    // string ReplaceWord(string s, string oldword, string NewWord)
-    // {
-
-    //     for (int i = 0; i < s.length(); i++)
-    //     {
-
-    //         if (s[i] == oldword[i])
-    //         {
-    //             s[i] = NewWord[i];
-    //         }
-    //         s += s[i];
-    //     }
-    //     return s;
-    // }
-    // string ReplaceWord(string oldword, string NewWord)
-    // {
-    //     return ReplaceWord(_Value, oldword, NewWord);
-    // }
+    //=========================================================
 
     static string Replace(string s, string oldword, string Newword)
     {
         string n = "";
+        string Delim = " ";
 
-        vector<string> Vstring = SplitString(s);
+        vector<string> Vstring = SplitString(s, Delim);
 
-        for (int i = 0; i < s.length(); i++)
+        for (int i = 0; i < Vstring.size(); i++) // بنمشي على طول الفيكتور مش السترنج خال بالك عشان عملت مشاكل
         {
             if (Vstring[i] == oldword)
             {
                 Vstring[i] = Newword;
             }
 
-            n += Vstring[i];
+            // i != Vstring.size() - 1 ? n += Vstring[i] + " " : n += Vstring[i];
+            n += Vstring[i] + " ";
         }
-        return n;
+        // return n;
+        return n.substr(0, n.size() - Delim.size());
+        // return TrimRight(n);
     }
     string Replace(string old_word, string New_word)
     {
         return Replace(_Value, old_word, New_word);
     }
+    static string ReplaceWord(string s1, string Word1, string Word2)
+    {
 
-    // static string ReverseWordsInString(string s)
-    // {
-    //     string Reversed = "";
+        short pos = s1.find(Word1);
 
-    //     vector<string> Vstring = SplitString(s);
+        while (pos != string::npos)
+        {
+            s1 = s1.replace(pos, Word1.length(), Word2);
 
-    //     for (int i = Vstring.size() - 1; i >= 0; i--)
-    //     {
-    //         Reversed += Vstring[i] + " ";
-    //     }
-    //     return Reversed;
-    // }
-    // string ReverseWordsInString()
-    // {
-    //     return ReverseWordsInString(_Value);
-    // }
+            pos = s1.find(Word1); // renew the position because of the new word we replaced to قمنا بتجديد الموقع على حيب الكلمة الجديدة
+        }
+        return s1;
+    }
+    string ReplaceWord(string old_word, string New_word)
+    {
+        return ReplaceWord(_Value, old_word, New_word);
+    }
+
+    //======================================================================
+
+    static string ReverseWordsInString(string s)
+    {
+        string Reversed = "";
+        string Delim = " ";
+
+        vector<string> Vstring = SplitString(s, Delim);
+
+        for (int i = Vstring.size() - 1; i >= 0; i--)
+        {
+            Reversed += Vstring[i] + Delim;
+        }
+
+        return Reversed.substr(0, Reversed.length() - Delim.length());
+        // return TrimRight(Reversed);
+    }
+    string ReverseWordsInString()
+    {
+        return ReverseWordsInString(_Value);
+    }
+    ////Master Solution
+    string ReverseStringWords(string S1)
+    {
+        vector<string> Vstring = SplitString(S1, " ");
+        string reversed;
+
+        vector<string>::iterator iter = Vstring.end();
+        while (iter != Vstring.begin())
+        {
+            --iter;
+            reversed += *iter + " ";
+        }
+        reversed = reversed.substr(0, reversed.length() - 1);
+        return reversed;
+    }
 
     //==================================================================
 
@@ -482,4 +497,72 @@ public:
     }
 
     //===================================================
+
+    // string RemovePunctuation(string s1)
+    //{
+    //	string S2;
+    //	for (char& c : s1)
+    //	{
+    //		if (!ispunct(c))
+    //		{
+    //			S2 += c;
+    //		}
+    //	}
+    //	return S2;
+    //}
+
+    // Master solution
+    static string RemovePunctuation(string s1)
+    {
+        string S2;
+
+        for (short i = 0; i < s1.length(); i++)
+        {
+            if (!ispunct(s1[i]))
+            {
+                S2 += s1[i];
+            }
+        }
+        return S2;
+    }
+    string RemovePunctuation()
+    {
+        return RemovePunctuation(_Value);
+    }
 };
+
+/*
+📌 Summary: Arrays, Stack vs Heap, and Memory Concepts in C++
+
+- Any variable stored in the stack MUST have a fixed size known at compile time.
+  → That’s why: int arr[5]; ✔️ works
+  → But: int arr[n]; ❌ (n is known only at runtime)
+
+- The problem is NOT the loop or arr[i]
+  → The problem is creating the array itself without knowing its size in advance.
+
+- Stack:
+  → Fast, simple, limited size
+  → Requires fixed sizes before execution
+
+- Heap:
+  → Larger and flexible
+  → Allows dynamic allocation at runtime
+
+- vector:
+  → Object itself is small (on stack)
+  → Stores actual data in heap
+  → Can grow/shrink dynamically
+
+- Basic idea:
+  → Fixed size → use normal array
+  → Dynamic size → use vector or dynamic allocation
+
+- Other languages (like Python):
+  → Automatically manage memory (Garbage Collection)
+  → Use hidden references (like pointers, but not visible)
+  → Free memory when it's no longer used
+
+🎯 Key takeaway:
+Stack يحتاج حجم ثابت قبل التنفيذ، لكن Heap مرن ويقبل التحديد وقت التشغيل.
+*/

@@ -6,7 +6,7 @@ int main()
     vector<string> vstirng = {"Ahmed", "Mohammed", "Sayed", "Ali"};
     string Arr[4] = {"Ahmed", "Mohammed", "Sayed", "Ali"};
 
-    clsString String1("Ahmed Sabry Kamel");
+    clsString String1("Egypt from Hello");
     // cout << String1.CountCapitalLetters() << endl;
     // cout << String1.CountSmallLetters() << endl;
     // cout << String1.CountVowels() << endl;
@@ -14,11 +14,11 @@ int main()
     // cout << String1.CountSpecificLetters('a') << endl;
     // cout << String1.InvertLetterCase('m') << endl;
     // cout << String1.IsVowel('s') << endl;
-    cout << String1.JoinString(vstirng) << "Hi" << endl;
+    // cout << String1.JoinString(Arr, 4, " ") << "Hi" << endl;
     // cout << String1.JoinString(Arr) << endl;
     // cout << String1.Length() << endl;
-    // cout << String1.ReplaceWord("Sabry", "Ismail") << endl;
-    // cout << String1.ReverseWordsInString() << endl;
+    // cout << String1.Replace("Sabry", "Ismail") << "Hi" << endl;
+    cout << String1.ReverseWordsInString() << "Hi" << endl;
     // cout << "Hi I am " << String1.TrimRight() << endl;
     // cout << String1.TrimLeft() << endl;
     // cout << String1.UpperAllString() << endl;
