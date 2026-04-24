@@ -10,7 +10,7 @@ public:
         clsString s1;
         string Reversed = "";
         string Delim = " ";
-        vector<string> Vstring = s1.SplitString(S, Delim);
+        vector<string> Vstring = s1.Split(S, Delim);
         vector<string>::iterator iter = Vstring.end(); // we started the pointer form the end
 
         while (iter != Vstring.begin())

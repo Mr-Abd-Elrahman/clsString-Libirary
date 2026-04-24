@@ -14,6 +14,7 @@ private:
 public:
     clsString()
     {
+        _Value = "";
     }
 
     clsString(string value)
@@ -62,7 +63,7 @@ public:
     }
 
     //****************************************
-    static vector<string> SplitString(string s, string delim)
+    static vector<string> Split(string s, string delim)
     {
         vector<string> Vstring;
         int pos = 0;
@@ -85,13 +86,45 @@ public:
         }
         return Vstring;
     }
-    vector<string> SplitString(string delim)
+    vector<string> Split(string delim)
     {
-        return SplitString(_Value, delim);
+        return Split(_Value, delim);
     }
 
     //===================================
-    static int CountCapitalLetters(string s)
+
+    enum enWhatToCount
+    {
+        SmallLetters,
+        CapitalLetters,
+        All
+    };
+    static short CountLetters(string s, enWhatToCount WhatToCount = enWhatToCount::All)
+    {
+        // All letters
+        if (WhatToCount == All)
+        {
+            return s.length();
+        }
+
+        short counter = 0;
+        for (short i = 0; i < s.length(); i++)
+        {
+
+            if (WhatToCount == SmallLetters && islower(s[i]))
+            {
+                counter++;
+            }
+            if (WhatToCount == CapitalLetters && isupper(s[i]))
+            {
+                counter++;
+            }
+        }
+
+        return counter;
+    }
+
+    static short CountCapitalLetters(string s)
     {
         int counter = 0;
         for (int i = 0; i < s.length(); i++)
@@ -104,13 +137,13 @@ public:
         return counter;
     }
 
-    int CountCapitalLetters()
+    short CountCapitalLetters()
     {
         return CountCapitalLetters(_Value);
     }
 
     //===================================
-    static int CountSmallLetters(string s)
+    static short CountSmallLetters(string s)
     {
         int counter = 0;
         for (int i = 0; i < s.length(); i++)
@@ -123,7 +156,7 @@ public:
         return counter;
     }
 
-    int CountSmallLetters()
+    short CountSmallLetters()
     {
         return CountSmallLetters(_Value);
     }
@@ -139,16 +172,18 @@ public:
         return false;
     }
 
+    //===========Not In Master's Code ===============
     bool IsVowel()
     {
         return IsVowel(_Letter);
     }
     //====================================
+
     //===================================
-    static int CountVowels(string s)
+    static short CountVowels(string s)
     {
-        int counter = 0;
-        for (int i = 0; i < s.length(); i++)
+        short counter = 0;
+        for (short i = 0; i < s.length(); i++)
         {
             if (IsVowel(s[i]))
             {
@@ -158,27 +193,38 @@ public:
         return counter;
     }
 
-    int CountVowels()
+    short CountVowels()
     {
         return CountVowels(_Value);
     }
 
-    static int CountSpecificLetters(string s, char l)
+    static short CountSpecificLetters(string s, char Letter, bool Matchcase = true)
     {
-        int counter = 0;
-        for (int i = 0; i < s.length(); i++)
+        short counter = 0;
+        for (short i = 0; i < s.length(); i++)
         {
-            if (s[i] == l)
+
+            if (Matchcase)
             {
-                counter++;
+                if (s[i] == Letter)
+                {
+                    counter++;
+                }
+            }
+            else // means when MatchCase = false
+            {
+                if (tolower(s[i]) == tolower(Letter))
+                {
+                    counter++;
+                }
             }
         }
         return counter;
     }
 
-    int CountSpecificLetters(char l)
+    short CountSpecificLetters(char Letter, bool MatchCase = true)
     {
-        return CountSpecificLetters(_Value, l);
+        return CountSpecificLetters(_Value, Letter, MatchCase);
     }
 
     //====================================
@@ -200,9 +246,14 @@ public:
         return resutl;
     }
 
-    string InverAllLettersCases()
+    // string InverAllLettersCases()
+    // {
+    //     return InverAllLettersCases(_Value);
+    // }
+    // master
+    void InverAllLettersCases()
     {
-        return InverAllLettersCases(_Value);
+        _Value = InverAllLettersCases(_Value);
     }
 
     //====================================
@@ -217,9 +268,13 @@ public:
         return s;
     }
 
-    string LowerAllString()
+    // string LowerAllString()
+    // {
+    //     return LowerAllString(_Value);
+    // }
+    void LowerAllString()
     {
-        return LowerAllString(_Value);
+        _Value = LowerAllString(_Value);
     }
     //====================================
 
@@ -233,11 +288,15 @@ public:
         return s;
     }
 
-    string UpperAllString()
+    // string UpperAllString()
+    // {
+    //     return UpperAllString(_Value);
+    // }
+    // maseter
+    void UpperAllString()
     {
-        return UpperAllString(_Value);
+        _Value = UpperAllString(_Value);
     }
-
     //=====================================
 
     static char InvertLetterCase(char Letter)
@@ -250,10 +309,15 @@ public:
         return toupper(Letter);
     }
 
-    char InvertLetterCase()
+    // char InvertLetterCase()
+    // {
+    //     return InvertLetterCase(_Letter);
+    // }
+    void InvertLetterCase()
     {
-        return InvertLetterCase(_Letter);
+        _Letter = InvertLetterCase(_Letter);
     }
+
     //==============================
 
     static string JoinString(vector<string> &vstring, string Delim)
@@ -294,13 +358,18 @@ public:
 
     //==========================================
 
-    int Length(string s)
+    static short Length(string s)
     {
         return s.length();
     }
-    int Length()
+    // short Length()
+    // {
+    //     return Length(_Value);
+    // }
+    // master
+    short Length()
     {
-        return Length(_Value);
+        return _Value.length();
     }
 
     //=========================================================
@@ -310,7 +379,7 @@ public:
         string n = "";
         string Delim = " ";
 
-        vector<string> Vstring = SplitString(s, Delim);
+        vector<string> Vstring = Split(s, Delim);
 
         for (int i = 0; i < Vstring.size(); i++) // بنمشي على طول الفيكتور مش السترنج خال بالك عشان عملت مشاكل
         {
@@ -330,16 +399,16 @@ public:
     {
         return Replace(_Value, old_word, New_word);
     }
-    static string ReplaceWord(string s1, string Word1, string Word2)
+    static string ReplaceWord(string s1, string Old_word, string New_word)
     {
 
-        short pos = s1.find(Word1);
+        short pos = s1.find(Old_word);
 
         while (pos != string::npos)
         {
-            s1 = s1.replace(pos, Word1.length(), Word2);
+            s1 = s1.replace(pos, Old_word.length(), New_word);
 
-            pos = s1.find(Word1); // renew the position because of the new word we replaced to قمنا بتجديد الموقع على حيب الكلمة الجديدة
+            pos = s1.find(Old_word); // renew the position because of the new word we replaced to قمنا بتجديد الموقع على حيب الكلمة الجديدة
         }
         return s1;
     }
@@ -355,7 +424,7 @@ public:
         string Reversed = "";
         string Delim = " ";
 
-        vector<string> Vstring = SplitString(s, Delim);
+        vector<string> Vstring = Split(s, Delim);
 
         for (int i = Vstring.size() - 1; i >= 0; i--)
         {
@@ -370,9 +439,9 @@ public:
         return ReverseWordsInString(_Value);
     }
     ////Master Solution
-    string ReverseStringWords(string S1)
+    static string ReverseStringWords(string S1)
     {
-        vector<string> Vstring = SplitString(S1, " ");
+        vector<string> Vstring = Split(S1, " ");
         string reversed;
 
         vector<string>::iterator iter = Vstring.end();
@@ -384,7 +453,10 @@ public:
         reversed = reversed.substr(0, reversed.length() - 1);
         return reversed;
     }
-
+    void ReverseStringWords()
+    {
+        _Value = ReverseStringWords(_Value);
+    }
     //==================================================================
 
     static string TrimLeft(string s1)
@@ -400,9 +472,14 @@ public:
         }
         return "";
     }
-    string TrimLeft()
+    // string TrimLeft()
+    // {
+    //     return TrimLeft(_Value);
+    // }
+    // master
+    void TrimLeft()
     {
-        return TrimLeft(_Value);
+        _Value = TrimLeft(_Value);
     }
     //-----------------------------------------------------
 
@@ -419,11 +496,17 @@ public:
         }
         return "";
     }
-    //-------------------------------------------------------------------
-    string TrimRight()
+    // string TrimRight()
+    // {
+    //     return TrimRight(_Value);
+    // }
+
+    // master
+    void TrimRight()
     {
-        return TrimRight(_Value);
+        _Value = TrimRight(_Value);
     }
+    //-------------------------------------------------------------------
 
     static string Trim(string s1)
     {
@@ -431,11 +514,16 @@ public:
         return TrimLeft(TrimRight(s1));
     }
 
-    string Trim()
-    {
-        return Trim(_Value);
-    }
+    // string Trim()
+    // {
+    //     return Trim(_Value);
+    // }
 
+    // Master
+    void Trim()
+    {
+        _Value = Trim(_Value);
+    }
     //=============================================================
 
     static string UpperFirstLetterOfString(string s)
@@ -452,10 +540,16 @@ public:
         }
         return s;
     }
-    string UpperFirstLetterOfString()
+    // string UpperFirstLetterOfString()
+    // {
+    //     return UpperFirstLetterOfString(_Value);
+    // }
+    // Master
+    void UpperFirstLetterOfString()
     {
-        return UpperFirstLetterOfString(_Value);
+        _Value = UpperFirstLetterOfString(_Value);
     }
+
     //=====================================
 
     static string LowerFirstLetterOfString(string s)
@@ -472,9 +566,14 @@ public:
         }
         return s;
     }
-    string LowerFirstLetterOfString()
+    // string LowerFirstLetterOfString()
+    // {
+    //     return LowerFirstLetterOfString(_Value);
+    // }
+    // master
+    void LowerFirstLetterOfString()
     {
-        return LowerFirstLetterOfString(_Value);
+        _Value = LowerFirstLetterOfString(_Value);
     }
     //===================================================
 
@@ -511,6 +610,10 @@ public:
     //	return S2;
     //}
 
+    // string RemovePunctuation()
+    // {
+    //     return RemovePunctuation(_Value);
+    // }
     // Master solution
     static string RemovePunctuation(string s1)
     {
@@ -525,9 +628,9 @@ public:
         }
         return S2;
     }
-    string RemovePunctuation()
+    void RemovePunctuation()
     {
-        return RemovePunctuation(_Value);
+        _Value = RemovePunctuation(_Value);
     }
 };
 
